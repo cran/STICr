@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction to STICr</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to STICr</h1>
+
+
+
+<p>The goal of STICr (pronounced “sticker”) is to provide a standardized
+set of functions for working with data from Stream Temperature,
+Intermittency, and Conductivity (STIC) loggers, first described in <a href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2013WR015158">Chapin
+et al. (2014)</a>. STICs and other intermittency sensors are becoming
+more popular, but their raw data output is not in a form that allows for
+convenient analysis. In this vignette, we will walk through some typical
+processing steps, starting from the raw STIC model output and ending
+with classified and visualized STIC data.</p>
+<div id="lets-get-going---load-sticr" class="section level2">
+<h2>Let’s get going - load STICr!</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages(&quot;STICr&quot;)  # if needed: install package from CRAN</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;HEAL-KGS/STICr&quot;) # if needed: install dev version from GitHub</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(STICr)</span></code></pre></div>
+</div>
+<div id="tidying-raw-stic-data" class="section level2">
+<h2>Tidying raw STIC data</h2>
+<p>STICs are created from modified HOBO Pendant loggers (see <a href="https://osf.io/dfw3x">instructions for how to do this here</a>),
+and as a result the raw data downloaded from the STIC logger comes in a
+proprietary .hobo format. Before using STICr, you must use the <a href="https://www.onsetcomp.com/products/software/hoboware">HOBOware
+software</a> to export the STIC output data as a CSV file. STICr can
+then use <code>tidy_hobo_data()</code> to get this into an R-friendly
+tidy format. We will also use the <code>convert_utc</code> argument to
+ensure that the data are converted from local time to UTC.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># use tidy_hobo_data to load and tidy your raw HOBO data</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>df_tidy <span class="ot">&lt;-</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">tidy_hobo_data</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="at">infile =</span> <span class="st">&quot;https://samzipper.com/data/raw_hobo_data.csv&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="at">outfile =</span> <span class="cn">FALSE</span>, <span class="at">convert_utc =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  )</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">head</span>(df_tidy)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;              datetime condUncal  tempC</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 1 2021-07-16 22:00:00   88178.4 27.764</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 2 2021-07-16 22:15:00   77156.1 28.655</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 3 2021-07-16 22:30:00   74400.5 28.060</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 4 2021-07-16 22:45:00   74400.5 27.764</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 5 2021-07-16 23:00:00   74400.5 27.862</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 6 2021-07-16 23:15:00   71644.9 27.370</span></span></code></pre></div>
+<p>The output of <code>tidy_hobo_data()</code> is a data frame with 3
+columns:</p>
+<ul>
+<li><code>datetime</code> = the date and time of the STIC measurement
+(in this case, converted to UTC).</li>
+<li><code>condUncal</code> = the STIC conductivity reading, which is an
+uncalibrated, sensor-specific relative conductivity measurement.</li>
+<li><code>tempC</code> = the STIC temperature reading in degrees
+celsius.</li>
+</ul>
+</div>
+<div id="calibrating-stic-data" class="section level2">
+<h2>Calibrating STIC data</h2>
+<p>Since the raw STIC data is in a sensor-specific relative conductivity
+value, it can often be useful to calibrate STIC loggers. This involves
+taking STIC readings in the lab with the sensor immersed in standards
+with known specific conductivity - <a href="https://osf.io/uh8ws">detailed instructions for how to do this can
+be found here.</a>. STICr can then use the
+<code>get_calibration()</code> and <code>apply_calibration()</code>
+functions to take these lab standard measurements and apply them to the
+STIC sensor output data.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># inspect the example calibration standard data provided with the package</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">data</span>(calibration_standard_data)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">head</span>(calibration_standard_data)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 3</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;     sensor standard condUncal</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 1 20946471      100    12400.</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 2 20946471      250    23422.</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 3 20946471      500    46845.</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 4 20946471     1000   104712.</span></span></code></pre></div>
+<p>The calibration standard data has three columns:</p>
+<ul>
+<li><code>sensor</code> = an identifier or serial number for the STIC
+sensor, since the calibration differs for each sensor.</li>
+<li><code>standard</code> = the specific conductivity for the lab
+standard data used for calibration.</li>
+<li><code>condUncal</code> = the uncalibrated conductivity data reading
+by the STIC sensor when immersed in the standard.</li>
+</ul>
+<p>Using this calibration standard data, we can then create a
+calibration curve using the <code>get_calibration()</code> function and
+apply it to our data using the <code>apply_calibration()</code>
+function. Currently, <code>get_calibration()</code> only allows for a
+linear calibration curve.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># get calibration</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>lm_calibration <span class="ot">&lt;-</span> <span class="fu">get_calibration</span>(calibration_standard_data)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">summary</span>(lm_calibration)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; lm(formula = standard ~ condUncal, data = calibration_data)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;      1      2      3      4 </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; -33.43  11.27  37.50 -15.34 </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)   </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; (Intercept) 1.496e+01  3.136e+01   0.477   0.6803   </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; condUncal   9.554e-03  5.328e-04  17.932   0.0031 **</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 37.99 on 2 degrees of freedom</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.9938, Adjusted R-squared:  0.9907 </span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; F-statistic: 321.5 on 1 and 2 DF,  p-value: 0.003096</span></span></code></pre></div>
+<p>This sensor has a very strong calibration, with an R^2 &gt; 0.99. We
+can now apply this to the tidied STIC data we loaded earlier. We will
+use the <code>outside_range_flag</code> argument to flag any data points
+that are outside the range of the standards used to develop the
+calibration curve, as these should be treated with caution.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># apply calibration</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>df_calibrated <span class="ot">&lt;-</span> <span class="fu">apply_calibration</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">stic_data =</span> df_tidy,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">calibration =</span> lm_calibration,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">outside_std_range_flag =</span> T</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">head</span>(df_calibrated)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;              datetime condUncal  tempC      SpC outside_std_range</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 1 2021-07-16 22:00:00   88178.4 27.764 857.3845                  </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 2 2021-07-16 22:15:00   77156.1 28.655 752.0820                  </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 3 2021-07-16 22:30:00   74400.5 28.060 725.7561                  </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 4 2021-07-16 22:45:00   74400.5 27.764 725.7561                  </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 5 2021-07-16 23:00:00   74400.5 27.862 725.7561                  </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 6 2021-07-16 23:15:00   71644.9 27.370 699.4302</span></span></code></pre></div>
+<p>We now have two additional columns in our STIC data frame:</p>
+<ul>
+<li><code>SpC</code> = the calibrated specific conductivity value at
+each timestep.</li>
+<li><code>outside_range</code> = a flag indicating whether the STIC data
+was within the range of the standards used for calibration (column is
+empty) or outside the range of the standards (column has an
+<code>O</code>).</li>
+</ul>
+</div>
+<div id="classify-the-data" class="section level2">
+<h2>Classify the data</h2>
+<p>Many people use STIC sensors to monitor when a stream is wet or dry,
+based on the principle that the conductivity of water is much higher
+than that of air. Therefore, high values of <code>condUncal</code>
+and/or <code>SpC</code> can be classified as wet conditions, and low
+values can be classified as dry conditions. In STICr, this can be done
+using the <code>classify_wetdry()</code> function, but this requires
+determining a suitable threshold to use for differentiating wet and dry
+conditions from the STIC data. It is typically useful to plot the data
+to determine this threshold.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># plot SpC as a timeseries and histogram</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">plot</span>(df_calibrated<span class="sc">$</span>datetime, df_calibrated<span class="sc">$</span>SpC, <span class="at">xlab =</span> <span class="st">&quot;Datetime&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;SpC&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Specific Conductivity Timeseries&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">hist</span>(df_calibrated<span class="sc">$</span>SpC, <span class="at">xlab =</span> <span class="st">&quot;Specific Conductivity&quot;</span>, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1025</span>, <span class="dv">25</span>), <span class="at">main =</span> <span class="st">&quot;Specific Conductivity Distribution&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>It can be unclear when exactly the sensor is wet or dry, particularly
+if the sensor has been buried by deposited sediments (which have an
+intermediate conductivity between water and air). In this case, there is
+a clear abundance of points with SpC &lt; 100, which we will use for our
+classification threshold.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># classify data</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>df_classified <span class="ot">&lt;-</span> <span class="fu">classify_wetdry</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">stic_data =</span> df_calibrated,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">classify_var =</span> <span class="st">&quot;SpC&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">threshold =</span> <span class="dv">100</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;absolute&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">head</span>(df_classified)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;              datetime condUncal  tempC      SpC outside_std_range wetdry</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 1 2021-07-16 22:00:00   88178.4 27.764 857.3845                      wet</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; 2 2021-07-16 22:15:00   77156.1 28.655 752.0820                      wet</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 3 2021-07-16 22:30:00   74400.5 28.060 725.7561                      wet</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 4 2021-07-16 22:45:00   74400.5 27.764 725.7561                      wet</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 5 2021-07-16 23:00:00   74400.5 27.862 725.7561                      wet</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 6 2021-07-16 23:15:00   71644.9 27.370 699.4302                      wet</span></span></code></pre></div>
+<p>We now have a new column, <code>wetdry</code>, which reads “wet” when
+<code>SpC</code> exceeds the threshold and “dry” when <code>SpC</code>
+is less than the threshold. We can plot and visualize the classified
+data.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># plot SpC through time, colored by wetdry</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">plot</span>(df_classified<span class="sc">$</span>datetime, df_classified<span class="sc">$</span>SpC,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">as.factor</span>(df_classified<span class="sc">$</span>wetdry),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">lty =</span> <span class="dv">2</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Datetime&quot;</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Specific conductivity&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;dry&quot;</span>, <span class="st">&quot;wet&quot;</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAGACAMAAAByRC0tAAAAh1BMVEUAAAAAADoAAGYAOmYAOpAAZrY6AAA6ADo6AGY6OmY6OpA6ZrY6kNtmAABmADpmAGZmOgBmOpBmZgBmZmZmkJBmtrZmtv+QOgCQOjqQOmaQZgCQkGaQ27aQ2/+2ZgC2Zjq225C2/7a2///bkDrb/7bb///fU2v/AAD/tmb/25D//7b//9v///869WuhAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAQTklEQVR4nO2dC3vixhVAset10gR2k7bBaVMriRVT8fj/v6+MHhhszfOOxB18zrffGoy4Mxodz1MMiwOAgMW1MwBlg0AgAoFABAKBCAQCEQgEIhAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQiEAhEIBCIQCAQgUAgAoFABAKBCAQCEQgEIhAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQiEAhEIBCIQCAQgUAgAoFABAKBCAQCEQgEIhAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQiEAhExAm0f1q03L9MlB0ojSiB6sWye9AMD+CzEyPQ/mk5PKwfXvPnBQokRqDdaj08bGjEoIUaCERE9oH6Kog+EPTEjcJ2q24UZq1/FnAjTCPQ3OFATtolQSDoUSWQdyIRgdShSSD/RCICqUORQAHDeARShyKBAiYSEUgdigSiBiqQjSKBAiYSEUgbqgQKmEiMCgfTo0ugucOBnCIEip8Bh7l4uyQxV4mJROjxC7R/Wh/ew0Qi9CgSiGF8iXgEOo6L/vbTevv3n+7/sT5sf3j98K7g8H6YSCwRj0DV8tierLeP60OzNP8+vCs4vB9qoBJxC7T79mKasO33L4fdz6+/P398V3D4AJhILBC3QMacQ9UKtP/1vz+/fnxXcPgQmEgsj+Aa6FD/cznyruDwWUAgdXguSd8HMgJtvzu1YAgEA55Lsn9qR2FGoP2/30ZGCAQ94Zdk+2PCuxDo1gm+JPXdWws21TzQWzeMeaBS0LSYun/yfaI5LrebzSbqeEhAk0BHg75kDLfZYND0qFqNNyO+bOE2m0iD1AsXlL/NJvrERZwJ9L8ex1Vqh2OHMjrRseU4b7knEJS/zWZmgxDo8nC9BgXlb7OZ2yCnQOZODjN/2Dy8HodI9y/tf5fvCg6fhQn7QAiUhrsGqpftCufxR3V89KWoGihyFIZAabgF2v7w+vtvX/a/Pu++PpuFsbIEikO5P2X2gXbf/vz2x/d/fntpJ/nunm9ZIEZhSXg60dW/ftz/+tuXdln+IOlEHw30zPFEhQMteOaBzK1d7X1eZln+4VVSA9XHyMtsuQUleC5JOwYzI69jDXL3fFpsSGzCxA4hkDpmXsqoXZ/6ig8X2tR7OgWbj4QeN3bg2GGjRwYl6ol69saocGE9Kj9zCtQc7Vkfa7H0PXzfpRvaWfQUaODltlzCwMNGjgxK1Bv19MaocGFjugBmE8iM4zpzBLuIX6YbUEznx9mODLzc1ksYeNiHI4MSDYjavzEqXNisUghzCbRbnd9PlAoC2UNHhStQoK+dP7IvMUAge+iocOUKVGcUKLAP5C1R36UJOmwTeFhgYpGZdAdMSS+UeQSq3iaZlkkJWtINKQJviQVe1LBrJfMnsqMfGDAlvWDmroFkJOTWW2LvXrAVcsAVeX+YIxcfMuS5ovYXPeGOv3CkbU0vnEUaweGl+ROH8xbYuxdsZXz+zHEtLOl4r6Dngtpf9ISbXKA0EMh2LSzpeK+g54LaX/SEuw2Bdqvl6TM7OTvRITiLbawg3eV9blNM79R7oOd62l90hvMSW5zj0aMDlFMDOQtuvAhCCnx4GH5dvAd6LoX9NVc4PwFlGHAusRGKEejsDD+esrcIQgsq51VJeWtQrvIlmMHDlJnoDLcDIVBCwBsRqJ0KSl3NiB/9DSDQzQh06FbjZfclxgp0cX5j5x1phjcdiQTO/KVE9b177PfeJPPkLbkP5P/4e550O96dX8LFCS0m2ZUeTUx+lSyDhMuX3VkIzGN0zsqogSwnKD77ifD5kzunI0G9SebKTLxA7Sb04js6ECh/eu4s2PMoSruMURgChaTnzoI9j6K01cwDuc/FXwqK/JmgDxSYniN5e/ZkSWsRyH021ld1+uMzaLr0rInbMydMWclamPt8NCqiiovi88mRV2UlNRACiShKoCnuiUYgGUUKlPWe6DdHxs4Nf3xsRvEemyFlRfdEX/rz8b4eSXI3z7X80XJPtOsPKOfp3i6B+mQvTXWdaARKoySBqodX+xeBpaWLQFIKEqhqPxgvXNGwdaLHSgB/QnD4c/GrzKWZshbWbSGedRjv+gvCnzB8/pzfS5Uv1ZTV+GX7c5phvP30BYl9bi7KNXthJjRh3Reibh+XOdNFoMlQJ9DRHfkdQQg0G/oEmiRdmz/0gcRcFGzuwlQjkHU5DH/EvDcoZ+yUUdisH22mBcuA7Y8zA8k1kGwUj0CzolGgQzXPpzIQKAMqBXJWQe1HN1zNXHiXCn8yoKkPNOCaSKyHlTLrkllkDRR6NFg4GaRmFOZaCxsmq4/Ulr3IQ9OlAcvE5oJ8cdNHYY5d6oflsoO9oUOgmdEjUADUQPooSqB+ueyQrQ8UkzaMo6MPdJpF9Ewketu5uBooNJPgYJqxfEIN1NUqjWw1NTBdZoGyMU0LlnQ/UDf8svVusqaLQNlQI1DQHYm5JhIRKBtqBBqGWJWjBso3kYg/2VDUBzJVUO3oA+UexgceC26GUVjWoCnD+HaI5eoB2ScSY3dppQXTjvKJRATSjvKJRATSToJA3hHWIfdEYmgewc0URZnyyVTZvYhR6eJPRiYpzJR5oOVs6dKCZWSawkyfSHRiainz8THrWB+BZkeLQMNShovWn++eHbYh0OxoEaifSHTRtnLdTfc5hvFhh4IPNX0g7+0cpt7p54JkdyTiT1aU1EABmNqnltdAtGBZmaQ4pxFot7p/aasg611DCDQ/agQK2Z2j6Zo5a38bgeZHi0Dd8kTt7UpnSBd/sqKjD3TaoWyGOxIRKC8qaqCJ9kgcgyYsL1OUp+oaCIHyokOgGftACJQXJQJNskfiOPiTFyUCzZcuAmUmv0GqBaIJy8wmf4mmCDTBd2WMg0CZ0SHQJN+VMQoCZUaFQDPOA9EHyo2GPtA035UxCv5kR8MobJLvyhiDFqwANM8DIVABaB7GI1ABaBVoc/pqmbzpQmaUCtSpg0D60SnQ5py8CUNeEAhEIBCIULoWRh+oFLSuheFPISheC6MFKwHFa2EIVAKK18IQqARmXguL2qUVfwpA5zC+B3/0o1og0I9qgaiB9BMp0G61DNhgKlO69IEKQHENxCisBKJroPXuq+xexOB0EagEEpowBII3YpuwOuw7U7Okiz8FkLAWNmsNlCEpmBK9nWhasCJAIBChdx4IgYqAGghEIBCIUHpPtAF/SkDrPdEG/CkAxfdEQwkovieaGqgEtN8TLUkDZkDv/kCMwoqAYTyIQCAQkSLQbrV4eK2WU6eLPyWQIFBz91w/vLbfzDxluvhTBGnDePNVTxMP42nByiBtItEI5JxI3D95VuwR6EZIr4EqxxfO1cNKmXXJDIFuhOQ+kOsL54bJ6oPke+PxpwgSR2HuicRhuexgXzFDoBthknmgHDUQTVgZTDOReGrf6APdOslNmPs7m4cbp61HIdCNkNaJPv5fy1ZTAwWSJAFzkDKM75on1zBeni4VUCGkfzJ12olEBCqE9BrINr5qXxNPJCJQIaT0gdoh1sQTiQhUCClrYd4NOuwTicG7tCJQIWidSESgQtA6kYhAhRAtUPtpjMZ3U714IhGBCiFWoO3juutGtw+mSxd/CiFWoMp8oLkyPeNqyo82UwGVQvz+QKaPbNxxTiSarRTbGsp24ysC3Qjx2/z2FjkFMgtl3e4LCHTjpAjUdX8cM9HdMH7/5Lj1PqgPFJo3uB4pfaB2Ib5rx8YZJhKrh9dUgdhZoRBiBWrunncrU/dUjhbsNJFYfUkWCMogeh6oaSd3to/OmzkGbXYr22oHAt0IE302fpiK3j8h0G2jd3MFKAIEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQiEAhEIBCIQCAQgUAgAoFABALBiYUTy3uCg+fK5SThIANufyweIRD0hPnz3iAEgp5QgS4vnVaBrG0uTMVNCTTW2sLE3JBAo60tTE2CP1MJJNzmF4G0YfNnsi3ult2DxC3uEKgYlG6yiT+lMIlAGbb5xZ9CUFoDQSlM1QcSf18YlMFEozD594VBGeicB4JiuJpAcCNcSSAR+fOSPeInDKgsPRcIpDGgsvRcIJDGgMrSc4FAGgMqS88FAmkMqCw9FwikMaCy9FwgkMaAytJzgUAaAypLzwUCaQyoLD24MRAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCDiigLtn76cHp997H77ffux+3qxWKxH3hUbsd2RZmkeNYvF3XPGgG+Rc+XwSGX9zGZKwO3jYvFl9H3ZUCfQbtXu21Afr3UTa9BIxP3TMVBtSrExESMNcgV8i5wrhwcjuVygs1M+BtutpjVIm0BNt3tV91oVee4jEbeP5kd9/9LtDBEZ0RXw9CBXwPZXGQR6d8qROYzlygK153z8bxCoWSwbmUDvI3Zh756Tr7ct4LsHWQLWD/9JEMh6yt9FttgpKBPoMGw9lNyEjZZmdaww2tJsMglUDXGqnAGPeUzpA9kCNvd/rqJ7abFoFSily2stTbMbTfcnnqnCaLx7/aUENE1OLoFMwNr0Bs7buCnQKpD5i9w+LvNEHPrQuQRqhq5zEzvGcQY0u3ZlEqgNWN8lVLqxKBUoqcdiidjVEhmbsOT6JyCHeQTqAnbF1xXlZFxJoLqvXG0CxdcX1oj1MCUSqaQv4NmDPAHrfmOV4OvtC9j9tUzclb6SQEYN0+TvVsv22o7XQDH1hS3isC1f9DDeF/DtQa6AhpgayBewe36bTZjp3hhJ9k8Pr/unRYY+kCXiW4zYiURfwOgemjeHhhiBvAFNp+psZ9RJuFYfqOnrarPr4i9jo7Aqdp1gPGLfLhhx6shxnSfgWeRcOTxE9oG8AZv4xZZYWEwFEQgEIhAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQiEAhEIBCIQCAQgUAgAoFABAKBCAQCEQgEIhAIRCDQCNXYPivN+vLJxYZynxcEGqHb4WD7eL4XzIUvyHMCgUbot8i42AwGgcZBoBF6gfq9htvGzOz5fvxt3e6X0j75a2V++4vZB9U8b/c/m343FXUg0AjDJj3mZ9XvVtlWOuaB2b/JPNm1ArWbwt+/tNvNDa9+KhBohEGgoxW7r8/dhnudM8tDuwPWm0DLw/Df+vTqlXJ9HRBohDOBzI/GNFDGl65T1O9G2Am0Ppz+O716xZzPDwKNcN6EHfs193/0NVAz7KM6LlDsLqs3AQKNcNaJPinyVgMdDgdHDfTZQKARzobx3a7Vi/XJmZZRgT7n2B6BRhgmEpdD5bPoN2Nuvzyguns2Tz4IdHr1qnmfGwQa4Xwpo90c2FhRDfNApk6qhnmgc4FOr34mEAhEIBCIQCAQgUAgAoFABAKBCAQCEQgEIhAIRCAQiEAgEIFAIAKBQAQCgQgEAhEIBCIQCEQgEIhAIBCBQCACgUAEAoEIBAIRCAQi/g+IypZtNeqqNwAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="qaqc-data" class="section level2">
+<h2>QAQC data</h2>
+<p>STICr has built-in a built-in QAQC function,
+<code>qaqc_stic_data()</code>, to deal with some common data issues we
+have experienced. This function requires classified STIC data, such as
+that output by <code>classify_stic_data()</code>, and produces a QAQC
+column or columns which could include the following data flags:</p>
+<ul>
+<li><code>C</code> = calibrated SpC value was negative and corrected to
+0, flagged if <code>spc_neg_correction = T</code>.</li>
+<li><code>D</code> = point was identified as a deviation or anomaly
+based on a moving window, flagged if
+<code>inspect_classification = T</code>. If this flag is calculated, an
+<code>anomaly_size</code> and <code>window_size</code> need to be
+set.</li>
+<li>‘O’ = calibrated SpC was outside standard range, determined in
+<code>apply_calibration()</code>.</li>
+</ul>
+<p>If <code>concatenate_flags = T</code>, these flags will be combined
+into a single column named <code>QAQC</code>; if not, they will be
+separate columns. A blank</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># apply qaqc function</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>df_qaqc <span class="ot">&lt;-</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">qaqc_stic_data</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="at">stic_data =</span> df_classified,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="at">spc_neg_correction =</span> T,</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="at">inspect_classification =</span> T,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="at">anomaly_size =</span> <span class="dv">2</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    <span class="at">window_size =</span> <span class="dv">96</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="at">concatenate_flags =</span> T</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  )</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">head</span>(df_qaqc)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;              datetime condUncal  tempC      SpC wetdry QAQC</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; 1 2021-07-16 22:00:00   88178.4 27.764 857.3845    wet     </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; 2 2021-07-16 22:15:00   77156.1 28.655 752.0820    wet     </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; 3 2021-07-16 22:30:00   74400.5 28.060 725.7561    wet     </span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; 4 2021-07-16 22:45:00   74400.5 27.764 725.7561    wet     </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 5 2021-07-16 23:00:00   74400.5 27.862 725.7561    wet     </span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; 6 2021-07-16 23:15:00   71644.9 27.370 699.4302    wet</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="fu">table</span>(df_qaqc<span class="sc">$</span>QAQC)</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;      DO   O </span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; 916   1  83</span></span></code></pre></div>
+<p>We can see that there was 1 “D” flag for a potential deviation (a dry
+reading surrounding by wet readings) and 83 “O” points indicating the
+calibrated SpC was outside the range of the standards used for
+calibration.</p>
+<p>Because we set <code>concatenate_flags = T</code>, we now have a
+single column, <code>QAQC</code> that combines all flags. Using
+<code>table</code>, we can inspect the total number of data flags in our
+classified dataset.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
