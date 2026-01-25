@@ -1,3 +1,7 @@
+# STICr 1.1.2
+
+ - Patch: Fix `classify_wetdry` to supply `if_else` with logical vector. This resolves a reverse dependency issue with updated version of dplyr (@DavisVaughan, #35).
+ 
 # STICr 1.1.1
 
  - Patch to updated package

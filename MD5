@@ -1,8 +1,8 @@
-264e99135c0efbe8a1933ea4b717f08f *DESCRIPTION
+c5efb865863aecedd0cde2a8bf5502fb *DESCRIPTION
 bbbcb9c73df8b6cba6236941cb2dfcdf *NAMESPACE
-168999e0b5e6e25d78b927daec96eb09 *NEWS.md
+0f3b8365b0c920bc003a3e3d34c90074 *NEWS.md
 4c0034fa8be2a756f4fdd1f49e3fa8f7 *R/apply_calibration.R
-a0bceee070b26ee15bf6cf0146ea0132 *R/classify_wetdry.R
+3a9e39956a75fbaff8477ba20eac1cbf *R/classify_wetdry.R
 8f597352afe66017adaac058acc67061 *R/data.R
 51df7d89b08a04e95445b832c56d1638 *R/get_calibration.R
 ee58753041045d5be539458e40d85275 *R/qaqc_stic_data.R
@@ -10,8 +10,8 @@ ee58753041045d5be539458e40d85275 *R/qaqc_stic_data.R
 080afdfcaa98f3acbda6b4502747d035 *R/tidy_hobo_data.R
 02ecfa7b3aea60717769a1b42d458994 *R/trim_hobo_data.R
 2cc0d89064405732e1e1e2ca525501ee *R/validate_stic_data.R
-ab29deb5c30050db42ff73f2197c0b62 *README.md
-3fbe237fba7dc9d9c49a522fadc5585b *build/vignette.rds
+bd1e476645af8d315e4d150499139302 *README.md
+74d0cd06625ff18457094fa3ef8fa0d4 *build/vignette.rds
 24d41b13c536c598dee1365f128da4c4 *data/calibrated_stic_data.RData
 489ec9f831eabaf4b67046434dafe746 *data/calibration_standard_data.RData
 ccb3bfb6c8b84e7c290e99f75228cfe8 *data/classified_stic_data.RData
@@ -20,7 +20,7 @@ ccb3bfb6c8b84e7c290e99f75228cfe8 *data/classified_stic_data.RData
 e60a07c494dd267ace5b066620ad5707 *inst/CITATION
 94e19769f462007ca3fb0455b2388845 *inst/doc/intro-to-STICr.R
 54a3d1535f2c9b069dcbde3e22509aa4 *inst/doc/intro-to-STICr.Rmd
-d4cac173d024c1b44c2f881334f4bf5a *inst/doc/intro-to-STICr.html
+8d8f5eedd1cd070dfca51e580bc8fe29 *inst/doc/intro-to-STICr.html
 dd9c41257b626583ecf95a67c33bc852 *man/apply_calibration.Rd
 dfb818682cdf964499ffc592b2b5abe1 *man/calibrated_stic_data.Rd
 b3e32abda7fa21573a4641d70d92be5e *man/calibration_standard_data.Rd
